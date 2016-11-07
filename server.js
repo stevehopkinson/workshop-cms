@@ -1,5 +1,6 @@
 var http = require('http');
 var fs = require('fs');
+var path = require('path');
 
 var port = 3000;
 
@@ -11,19 +12,21 @@ var girlsMessage = "Go girls!";
 
 function handler (request, response) {
   var endpoint = request.url;
+  if (endpoint === "/")
+    endpoint = "/index.html";
+  var extension = path.extname(endpoint).substring(1);
   var method = request.method;
   console.log("Endpoint: " + endpoint + ", Method: " + method);
-  if (endpoint === "/") {
-    response.writeHead(200, {"Content-Type": "text/html"});
 
-    fs.readFile(__dirname + '/public/index.html', function (error, file) {
-      if (error) {
-        console.log(error);
-        return;
-      }
-      response.end(file);
-    })
-  }
+  response.writeHead(200, {"Content-Type": "text/" + extension});
+
+  fs.readFile(__dirname + '/public' + endpoint, function (error, file) {
+    if (error) {
+      console.log(error);
+      return;
+    }
+    response.end(file);
+  })
 }
 
 server.listen(port, function () {
