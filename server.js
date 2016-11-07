@@ -6,10 +6,6 @@ var port = 3000;
 
 var server = http.createServer(handler);
 
-var message = "Code on, code on, with node in your hearts, and you'll never code alone.";
-var nodeMessage = "Node on!";
-var girlsMessage = "Go girls!";
-
 function handler (request, response) {
   var endpoint = request.url;
   if (endpoint === "/")
